@@ -51,14 +51,19 @@ class ArtistList(APIView):
 class ArtistID(APIView):
     def get(self, request, id_artist):
         artistas_l = Artists.objects.filter(id=id_artist)
-        serializer = ArtistSerializer(artistas_l, many=True)
-        return Response(serializer.data)
+        try:
+            if len(artistas_l[0].id) > 0:
+                serializer = ArtistSerializer(artistas_l, many=True)
+                return Response(serializer.data)
+        except:
+            return HttpResponse(status=404)
 
     def delete(self, request, id_artist):
         try:
             artists_l = Artists.objects.filter(id=id_artist)
-            artists_l[0].delete()
-            return HttpResponse(status=204)
+            if len(artists_l[0].id) > 0:
+                artists_l[0].delete()
+                return HttpResponse(status=204)
         except:
             return HttpResponse(status=404)
 
@@ -73,14 +78,19 @@ class AlbumList(APIView):
 class AlbumID(APIView):
     def get(self, request, id_album):
         albums_l = Albums.objects.filter(id=id_album)
-        serializer = AlbumSerializer(albums_l, many=True)
-        return Response(serializer.data)
+        try:
+            if len(albums_l[0].id)>0:
+                serializer = AlbumSerializer(albums_l, many=True)
+                return Response(serializer.data)
+        except:
+            return HttpResponse(status=404)
 
     def delete(self, request, id_album):
         try:
             albums_l = Albums.objects.filter(id=id_album)
-            albums_l[0].delete()
-            return HttpResponse(status=204)
+            if len(albums_l[0].id) > 0:
+                albums_l[0].delete()
+                return HttpResponse(status=204)
         except:
             return HttpResponse(status=404)
 
@@ -88,8 +98,12 @@ class AlbumID(APIView):
 class AlbumPG(APIView):
     def get(self, request, id_artist):
         albums_l = Albums.objects.filter(artist_id=id_artist)
-        serializer = AlbumSerializer(albums_l, many=True)
-        return Response(serializer.data)
+        try:
+            if len(albums_l[0].id) > 0:
+                serializer = AlbumSerializer(albums_l, many=True)
+                return Response(serializer.data)
+        except:
+            return HttpResponse(status=404)
 
     def post(self, request, id_artist):
         data = request.data
@@ -130,8 +144,12 @@ class AlbumPG(APIView):
 class TrackPG(APIView):
     def get(self, request, id_album):
         tracks_l = Tracks.objects.filter(album_id=id_album)
-        serializer = TrackSerializer(tracks_l, many=True)
-        return Response(serializer.data)
+        try:
+            if len(tracks_l[0].id) > 0:
+                serializer = TrackSerializer(tracks_l, many=True)
+                return Response(serializer.data)
+        except:
+            return HttpResponse(status=404)
 
     def post(self, request, id_album):
         data = request.data
@@ -195,14 +213,18 @@ class TracksArtist(APIView):
 class TrackID(APIView):
     def get(self, request, id_track):
         tracks_l = Tracks.objects.filter(id=id_track)
-        serializer = TrackSerializer(tracks_l, many=True)
-        return Response(serializer.data)
-
+        try:
+            if len(tracks_l[0].id) > 0:
+                serializer = TrackSerializer(tracks_l, many=True)
+                return Response(serializer.data)
+        except:
+            return HttpResponse(status=404)
     def delete(self, request, id_track):
         try:
             tracks_l = Tracks.objects.filter(id=id_track)
-            tracks_l[0].delete()
-            return HttpResponse(status=204)
+            if len(tracks_l[0].id) > 0:
+                tracks_l[0].delete()
+                return HttpResponse(status=204)
         except:
             return HttpResponse(status=404)
 
@@ -211,12 +233,13 @@ class ArtistPlay(APIView):
     def put(self, request, id_artist):
         try:
             albums_l = Albums.objects.filter(artist_id=id_artist)
-            for album in albums_l:
-                tracks = Tracks.objects.filter(album_id=album.id)
-                for track in tracks:
-                    track.times_played += 1
-                    track.save()
-            return HttpResponse(status=200)
+            if len(albums_l[0].id) > 0:
+                for album in albums_l:
+                    tracks = Tracks.objects.filter(album_id=album.id)
+                    for track in tracks:
+                        track.times_played += 1
+                        track.save()
+                return HttpResponse(status=200)
         except:
             return HttpResponse(status=404)
 
@@ -225,10 +248,11 @@ class AlbumPlay(APIView):
     def put(self, request, id_album):
         try:
             tracks = Tracks.objects.filter(album_id=id_album)
-            for track in tracks:
-                track.times_played += 1
-                track.save()
-            return HttpResponse(status=200)
+            if len(tracks[0].id) > 0:
+                for track in tracks:
+                    track.times_played += 1
+                    track.save()
+                return HttpResponse(status=200)
         except:
             return HttpResponse(status=404)
 
@@ -237,9 +261,10 @@ class TrackPlay(APIView):
     def put(self, request, id_track):
         try:
             track = Tracks.objects.get(id=id_track)
-            track.times_played += 1
-            track.save()
-            return HttpResponse(status=200)
+            if len(track[0].id) > 0:
+                track.times_played += 1
+                track.save()
+                return HttpResponse(status=200)
         except:
             return HttpResponse(status=404)
 
