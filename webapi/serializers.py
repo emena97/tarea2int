@@ -13,11 +13,11 @@ class AlbumSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Albums
-        fields = {'id', 'name', 'genre', 'artist_id', 'artist', 'tracks', 'self'}
+        fields = '__all__'
 
 
 class TrackSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tracks
-        fields = {'id', 'name', 'duration', 'times_played', 'album_id', 'artist', 'album', 'self'}
+        fields = '__all__'
