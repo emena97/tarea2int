@@ -265,10 +265,11 @@ class AlbumPlay(APIView):
 class TrackPlay(APIView):
     def put(self, request, id_track):
         try:
-            track = Tracks.objects.get(id=id_track)
-            if len(track[0].id) > 0:
-                track.times_played += 1
-                track.save()
+            tracks = Tracks.objects.filter(id=id_track)
+            if len(tracks[0].id) > 0:
+                for track in tracks:
+                    track.times_played += 1
+                    track.save()
                 return HttpResponse(status=200)
         except:
             return HttpResponse(status=404)
