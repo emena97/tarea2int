@@ -199,15 +199,20 @@ class TrackList(APIView):
 class TracksArtist(APIView):
     def get(self, request, id_artist):
         albums_artista = Albums.objects.filter(artist_id=id_artist)
-        tracks = Tracks.objects.all()
-        tracks_l = []
-        for track in tracks:
-            for album in albums_artista:
-                if album.id == track.album_id:
-                    tracks_l.append(track)
+        try:
+            if len(albums_artista[0].id) > 0:
+                tracks = Tracks.objects.all()
+                tracks_l = []
+                for track in tracks:
+                    for album in albums_artista:
+                        if album.id == track.album_id:
+                            tracks_l.append(track)
 
-        serializer = TrackSerializer(tracks_l, many=True)
-        return Response(serializer.data)
+                serializer = TrackSerializer(tracks_l, many=True)
+                return Response(serializer.data)
+
+        except:
+            return  HttpResponse(status=404)
 
 
 class TrackID(APIView):
