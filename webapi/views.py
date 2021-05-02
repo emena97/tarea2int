@@ -53,7 +53,7 @@ class ArtistID(APIView):
         artistas_l = Artists.objects.filter(id=id_artist)
         try:
             if len(artistas_l[0].id) > 0:
-                serializer = ArtistSerializer(artistas_l, many=True)
+                serializer = ArtistSerializer(artistas_l[0], many=True)
                 return Response(serializer.data)
         except:
             return HttpResponse(status=404)
@@ -80,7 +80,7 @@ class AlbumID(APIView):
         albums_l = Albums.objects.filter(id=id_album)
         try:
             if len(albums_l[0].id)>0:
-                serializer = AlbumSerializer(albums_l, many=True)
+                serializer = AlbumSerializer(albums_l[0], many=True)
                 return Response(serializer.data)
         except:
             return HttpResponse(status=404)
@@ -220,7 +220,7 @@ class TrackID(APIView):
         tracks_l = Tracks.objects.filter(id=id_track)
         try:
             if len(tracks_l[0].id) > 0:
-                serializer = TrackSerializer(tracks_l, many=True)
+                serializer = TrackSerializer(tracks_l[0], many=True)
                 return Response(serializer.data)
         except:
             return HttpResponse(status=404)
