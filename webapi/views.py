@@ -36,7 +36,7 @@ class ArtistList(APIView):
             pass
         id_artist = b64encode(data['name'].encode()).decode('utf-8')
         id_artist = id_artist[0:22]
-        url_base = 'https://apihost.com/artists/'
+        url_base = 'https://tarea2int.herokuapp.com/artists/'
         albums = url_base + id_artist + '/' + 'albums'
         tracks = url_base + id_artist + '/' + 'tracks'
         self_var = url_base + id_artist
@@ -122,7 +122,7 @@ class AlbumPG(APIView):
                 return Response(serializer.data, status=409)
         except:
             pass
-        url_base = 'https://apihost.com/'
+        url_base = 'https://tarea2int.herokuapp.com/'
         to_encode = data['name']+':'+id_artist
         album_id = b64encode(to_encode.encode()).decode('utf-8')
         album_id = album_id[0:22]
@@ -167,7 +167,7 @@ class TrackPG(APIView):
                 return Response(serializer.data, status=409)
         except:
             pass
-        url_base = 'https://apihost.com/'
+        url_base = 'https://tarea2int.herokuapp.com/'
         to_encode = data['name']+':'+id_album
         track_id = b64encode(to_encode.encode()).decode('utf-8')
         track_id = track_id[0:22]
